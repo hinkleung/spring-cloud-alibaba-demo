@@ -1,0 +1,52 @@
+server:
+  port: 8180
+spring:
+  application:
+    name: user-center
+  datasource:
+    url: jdbc:mysql://localhost:3306/user_center
+    hikari:
+      username: root
+      password: 123456
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  zipkin:
+    base-url: http://localhost:9411
+    discoveryClientEnabled: false
+  sleuth:
+    sampler:
+      # 抽样率，默认是0.1(10%)
+      probability: 1.0
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+        #        namespace: 67a93e65-515e-475a-b386-550a14c87c0f
+        # NJ
+        # 集群名称
+#        cluster-name: BJ
+    stream:
+      rocketmq:
+        binder:
+          name-server: 127.0.0.1:9876
+      bindings:
+        input:
+          destination: stream-test-topic
+          # 如果用的是RocketMq一定要设置
+          group: binder-group
+        my-input:
+          destination: stream-my-topic
+          # 如果用的是RocketMq一定要设置
+          group: my-group
+
+rocketmq:
+  name-server: 127.0.0.1:9876
+
+logging:
+  level:
+    com.itmuch.contentcenter.feignclient: debug
+    com.alibaba.nacos: error
+    org.springframework.cloud.sleuth: debug
+
+jwt:
+  secret: dhu1b312b3u2h1b3hk
+  expire-time-in-second: 1209600
